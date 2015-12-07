@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Westminster Glenn Speed Sign Data</title>
+        <title>Westminster Glen Speed Sign Data</title>
 
         <!-- Include the CSS -->
         <link href="{{ url_for('static', filename='css/toolkit-inverse.min.css') }}" rel="stylesheet">
@@ -15,57 +15,60 @@
     </head>
     <body>
 
-        <div class="container m-a-md p-t-lg">
+        <div class="container">
+
+        <div class="m-x-auto">
+            <h1>Westminster Glen Speed Data</h1>
+        </div>
+        <hr>
+
+        <div class="container">
 
             <div class="row">
-              <div class="col-sm-4">
-                <div class="statcard p-a-md">
-                  <h3 class="statcard-number">
-                    {{ max_speed }}
-                    <small class="delta-indicator delta-positive">5%</small>
-                  </h3>
-                  <span class="statcard-desc">Max Speed (MPH)</span>
+                <div class="col-sm-4">
+                    <div class="statcard p-a-md">
+                      <h3 class="statcard-number">
+                        {{ car_count | round | int  }}
+                      </h3>
+                      <span class="statcard-desc">Total Car Count</span>
+                    </div>
                 </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="statcard p-a-md">
-                  <h3 class="statcard-number">
-                    {{ car_count }}
-                    <small class="delta-indicator delta-negative">1.3%</small>
-                  </h3>
-                  <span class="statcard-desc">Total Car Count</span>
+                <div class="col-sm-4">
+                    <div class="statcard p-a-md">
+                      <h3 class="statcard-number">
+                        {{ violator_count | round | int }}
+                      </h3>
+                      <span class="statcard-desc">Total Violator Count</span>
+                    </div>
                 </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="statcard p-a-md">
-                  <h3 class="statcard-number">
-                    {{ violator_count }}
-                    <small class="delta-indicator delta-negative">1.3%</small>
-                  </h3>
-                  <span class="statcard-desc">Total Violator Count</span>
+                <div class="col-sm-4">
+                    <div class="statcard p-a-md">
+                        <h3 class="statcard-number">
+                        {{ violator_pct }}%
+                        </h3>
+                        <span class="statcard-desc">Violator %</span>
+                    </div>
                 </div>
-              </div>
             </div>
 
             <div class="row">
-              <div class="col-sm-4">
-                <div class="statcard p-a-md">
-                  <h3 class="statcard-number">
-                    {{ violator_pct }}%
-                    <small class="delta-indicator delta-negative">1.3%</small>
-                  </h3>
-                  <span class="statcard-desc">Violator %</span>
+                <div class="col-sm-4">
+                    <div class="statcard p-a-md">
+                        <h3 class="statcard-number">
+                          {{ max_speed | round | int }}
+                        </h3>
+                        <span class="statcard-desc">Max Speed (MPH)</span>
+                    </div>
                 </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="statcard p-a-md">
-                  <h3 class="statcard-number">
-                    {{ avg_speed }}
-                    <small class="delta-indicator delta-negative">1.3%</small>
-                  </h3>
-                  <span class="statcard-desc">Avg Speed (MPH)</span>
+
+                <div class="col-sm-4">
+                    <div class="statcard p-a-md">
+                        <h3 class="statcard-number">
+                        {{ avg_speed }}
+                        </h3>
+                        <span class="statcard-desc">Avg Speed (MPH)</span>
+                    </div>
                 </div>
-              </div>
             </div>
 
         </div>
@@ -73,7 +76,7 @@
         <div class="container">
 
             <div class=row>
-                <h4>Violators by Year</h4>
+                <h4>Total Vehicles vs Violators by Year</h4>
                 <canvas
                   class="ex-line-graph"
                   data-scale-override="true"
@@ -81,9 +84,16 @@
                   data-scale-step-width="50000"
                   data-scale-start-value="0"
                   data-chart="line"
+                  data-bezier-curve="true"
                   data-scale-line-color="transparent"
                   data-scale-grid-line-color="rgba(255,255,255,.05)"
                   data-scale-font-color="#a2a2a2"
+                  data-fill-color="rgba(220,220,220,0.2)"
+                  data-stroke-color="rgba(220,220,220,1)"
+                  data-point-color="#cccccc"
+                  data-point-stroke-color="#fff"
+                  data-point-highlight-fill="#fff"
+                  data-point-highlight-stroke="rgba(220,220,220,1)"
                   data-labels="[ {{ ts_labels }} ]"
                   data-value="[
                         {fillColor:'rgba(28,222,22,.03)', data:[{{ ts_violator }}]},
@@ -93,7 +103,7 @@
             </div>
 
             <div class=row>
-                <h4>Speeds by Hour of Day</h4>
+                <h4>Max and Mean Speeds by Hour of Day</h4>
                 <canvas
                   class="ex-line-graph"
                   data-scale-override="true"
@@ -115,6 +125,8 @@
         </div>
 
         {{timeseries}}
+
+    </div>
 
     <!-- Include jQuery (required) and the JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

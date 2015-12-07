@@ -14,27 +14,34 @@ if not app.debug:
     file_handler.setLevel(logging.WARNING)
     app.logger.addHandler(file_handler)
 
+
 def create_graph_strings(input_list):
     return None
 
+
 def get_raw_data():
     file_name = "static/files/all_data.csv"
-    dataframe = pd.read_csv(file_name,header=0)
+    dataframe = pd.read_csv(file_name, header=0)
     dataframe['date'] = pd.to_datetime(dataframe['date'])
     return dataframe
+
 
 def get_max_speed(df):
     return float(max(df['peak_speed']))
 
+
 def get_vehicle_count(df):
     return float(sum(df['vehicle_count']))
+
 
 def get_violator_count(df):
     return float(sum(df['violator_count']))
 
+
 def get_avg_speed(df):
     theavg = np.mean(df['peak_speed'])
-    return round(theavg,2)
+    return round(theavg, 2)
+
 
 def get_timeseries_by_year(df):
     ''' group by keys, then return strings suitable for graphing '''
@@ -55,6 +62,7 @@ def get_timeseries_by_year(df):
 
     return [keys_str, vehicle_count_by_month_str, violator_count_by_month_str]
 
+
 def get_speed_by_hour(df):
     grouped = df.sort(['hour_of_day'], ascending=1).groupby(['hour_of_day'])
     mean_speed = grouped.aggregate(np.mean)['peak_speed']
@@ -73,25 +81,26 @@ def get_speed_by_hour(df):
 
     return [keys_str, mean_speed_str, max_speed_str]
 
+
 @app.route("/")
 def dashboard():
     df = get_raw_data()
-    violator_pct = round((get_violator_count(df)/get_vehicle_count(df)*100),2)
+    violator_pct = round((get_violator_count(df)/get_vehicle_count(df)*100), 2)
     violator_graph = get_timeseries_by_year(df)
     speed_graph = get_speed_by_hour(df)
 
     return render_template('index.html',
-                    car_count = get_vehicle_count(df),
-                    violator_count = get_violator_count(df),
-                    violator_pct = violator_pct,
-                    max_speed = get_max_speed(df),
-                    avg_speed = get_avg_speed(df),
-                    ts_labels = violator_graph[0],
-                    ts_vehicle = violator_graph[1],
-                    ts_violator = violator_graph[2],
-                    ts_speed_labels = speed_graph[0],
-                    ts_mean_speed_data = speed_graph[1],
-                    ts_max_speed_data = speed_graph[2]
+                    car_count=get_vehicle_count(df),
+                    violator_count=get_violator_count(df),
+                    violator_pct=violator_pct,
+                    max_speed=get_max_speed(df),
+                    avg_speed=get_avg_speed(df),
+                    ts_labels=violator_graph[0],
+                    ts_vehicle=violator_graph[1],
+                    ts_violator=violator_graph[2],
+                    ts_speed_labels=speed_graph[0],
+                    ts_mean_speed_data=speed_graph[1],
+                    ts_max_speed_data=speed_graph[2]
                     )
 
 if __name__ == "__main__":
