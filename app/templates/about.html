@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+
+<p>
+    The WMG Speed Project was conceived to bring awareness to the speeding problem in the Westminster Glenn neighborhood of Austin TX. The core premise of the project is if people understand the actual data behind the problem, they may be more apt to do
+    something about it. In this case, slow down!
+</p>
+
+<p>
+    The data for this project comes from a pair of speed signs on Westminster Glenn Ave. These signs capture data via a radar sensor when cars pass. The data is logged internally as aggregate information in 15 minute buckets. There is no individual record of each car, simply an aggregate of the each 15m interval.  This data is stored internally as csv files then downloaded and posted to this site. This site is an application written in the python programming language that processes the csv files from the speed signs into a nice viewable format and presents them on a web page.
+</p>
+
+<p>
+    The downloading of the data from the signs still requires a human to go do something so it lags actual calendar time.
+</p>
+
+<p>
+    The speed data is the property of the WMG HOA.
+</p>
+
+</div>
+
+{% endblock %}
